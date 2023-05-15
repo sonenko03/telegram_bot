@@ -822,7 +822,7 @@ if __name__ == "__main__":
         elif call.data == "stolyar":
             bot.send_message(call.message.chat.id, "Инфо", reply_markup=inline_keyboard_choice_ochno())
         elif call.data == "FAQ_ochno":
-            bot.send_message(call.message.chat.id, "Здесь должен быть FAQ")
+            bot.send_message(call.message.chat.id, "1) Предоставляете ли вы помощь в устройстве на работу?\n Да")
         elif call.data == "dop_study":
             bot.send_message(call.message.chat.id, "Какое именно дополнительно образование Вас интересует?", reply_markup=inline_keyboard_dop_study())
         elif call.data == "qualification" or call.data == "prof_study" or call.data == "restudy":
@@ -923,7 +923,7 @@ if __name__ == "__main__":
         elif call.data == "architecture_11_k_question":
             bot.send_message(call.message.chat.id, "Вопрос", reply_markup=inline_keyboard_kampus_architecture_11_k_faq())
         elif call.data == "architecture_11_k_question_faq":
-            bot.send_message(call.message.chat.id, "Тут должен быть FAQ")
+            bot.send_message(call.message.chat.id, "1) Предоставляете ли вы помощь в устройстве на работу?\n Да")
         elif call.data == "architecture_11_k_my_question":
             bot.send_message(call.message.chat.id, "Напишите вопрос в свободной форме, ответ будет в личку от деканата")
         elif call.data == "kampus_suhoi_group_15":
