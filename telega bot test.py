@@ -1,5 +1,5 @@
 import telebot
-from telebot.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardButton, InlineKeyboardMarkup
+from telebot.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardButton, InlineKeyboardMarkup, MessageEntity
 import psycopg2
 import datetime
 
@@ -199,6 +199,13 @@ if __name__ == "__main__":
                              InlineKeyboardButton("СЭЗС, 3 курс",callback_data="kampus_otdelka_group_sezs_3"), InlineKeyboardButton("УМКД, 4 курс",callback_data="kampus_otdelka_group_ymkd_4"))
         return inline_markup_10
     
+    def inline_keyboard_kampus_otdelka_group_temp():
+        inline_markup_10 = InlineKeyboardMarkup()
+        inline_markup_10.row_width = 5
+        inline_markup_10.add(InlineKeyboardButton("10",callback_data="kampus_otdelka_group_10"), InlineKeyboardButton("11-K",callback_data="kampus_otdelka_group_11_k_temp"), 
+                             InlineKeyboardButton("12",callback_data="kampus_otdelka_group_12_temp"))
+        return inline_markup_10
+    
     def inline_keyboard_kampus_zdaniya_group():
         inline_markup_10 = InlineKeyboardMarkup()
         inline_markup_10.row_width = 4
@@ -314,8 +321,6 @@ if __name__ == "__main__":
         inline_markup_11.add(InlineKeyboardButton("Расписание", callback_data="domyprav_ymkd_4_rasp"), InlineKeyboardButton("Объявления", callback_data="architecture_11_k_attention"), 
                              InlineKeyboardButton("Вопросы", callback_data="architecture_11_k_question"))
         return inline_markup_11
-    
-    
     
     def inline_keyboard_kampus_voda_14():
         inline_markup_11 = InlineKeyboardMarkup()
@@ -772,6 +777,7 @@ if __name__ == "__main__":
         inline_markup_12.row_width = 2
         inline_markup_12.add(InlineKeyboardButton("FAQ", callback_data="architecture_11_k_question_faq"), InlineKeyboardButton("Свой вопрос", callback_data="architecture_11_k_my_question"))
         return inline_markup_12
+    
 
     API_TOKEN = 'token'
     fio_int = 0
@@ -826,13 +832,13 @@ if __name__ == "__main__":
         elif call.data == "dop_study":
             bot.send_message(call.message.chat.id, "Какое именно дополнительно образование Вас интересует?", reply_markup=inline_keyboard_dop_study())
         elif call.data == "qualification" or call.data == "prof_study" or call.data == "restudy":
-            bot.send_message(call.message.chat.id, "Здесь должна быть цена", reply_markup=inline_keyboard_dop_study_price())
+            bot.send_message(call.message.chat.id, "Цены обучения поступающих отличаются от года к году. Список на новый 2023ий учебный год будет предоставлен в первых числах июля", reply_markup=inline_keyboard_dop_study_price())
         elif call.data == "get_shablons":
-            bot.send_message(call.message.chat.id, "Здесь будет отправка шаблонов докуметнов")
+            bot.send_message(call.message.chat.id, "Договор, Согласие на обработку данных", entities=[MessageEntity("text_link", 0, 7, url="https://disk.yandex.ru/i/B3-r2c1YQt0fUA"), MessageEntity("text_link", 8, 29, url="https://disk.yandex.ru/i/sDq9YY6sqtIkMw")], disable_web_page_preview = True)
         elif call.data == "rassrochki":
-            bot.send_message(call.message.chat.id, "Рассрочек не нашёл")
+            bot.send_message(call.message.chat.id, "Учащимся платно могут быть предоставлены студенческие кредиты, рассрочки и другие варианты от НАСК и банков-партнеров.", entities=[MessageEntity("text_link", 101, 16, url="http://www.sberbank.ru/ru/person/credits/money/credit_na_obrazovanie")])
         elif call.data == "krediti":
-            bot.send_message(call.message.chat.id, "кредитов не нашёл")
+            bot.send_message(call.message.chat.id, "Учащимся платно могут быть предоставлены студенческие кредиты, рассрочки и другие варианты от НАСК и банков-партнеров.", entities=[MessageEntity("text_link", 101, 16, url="http://www.sberbank.ru/ru/person/credits/money/credit_na_obrazovanie")])
         elif call.data == "main_study":
             bot.send_message(call.message.chat.id, "Про обучение", reply_markup=inline_keyboard_ochno_oformlenie())
         elif call.data == "podgotov_kursi":
@@ -840,17 +846,9 @@ if __name__ == "__main__":
         elif call.data == "tests_kursi":
             bot.send_message(call.message.chat.id, "Подготовительные курсы есть", reply_markup=inline_keyboard_dop_kursi_choice())
         elif call.data == "info_price":
-            bot.send_message(call.message.chat.id, "Стоимость такая-то", reply_markup=inline_keyboard_dop_kursi_price_choice())
+            bot.send_message(call.message.chat.id, "Цены обучения поступающих отличаются от года к году. Список на новый 2023ий учебный год будет предоставлен в первых числах июля", reply_markup=inline_keyboard_dop_kursi_price_choice())
         elif call.data == "tests_time":
-            bot.send_message(call.message.chat.id, "Расписание не нашёл")
-        elif call.data == "info_time":
-            bot.answer_callback_query(call.id, "01-09-2023")
-        elif call.data == "info_docs":
-            bot.answer_callback_query(call.id, "Список документов. 1,2,3")
-        elif call.data == "info_live":
-            bot.send_message(call.message.chat.id, "Информация по ссылке: http://xn--80auhr.xn--p1ai/students/obshchezhitie/")
-        elif call.data == "call_back":
-            bot.send_message(call.message.chat.id, "Свяжемся с вами в течении 2-х часов! Напишите пожалуйста в 2 следующих разных сообщения своё ФИО и телефон")
+            bot.send_message(call.message.chat.id, "Цены обучения поступающих отличаются от года к году. Список на новый 2023ий учебный год будет предоставлен в первых числах июля")
         elif call.data == "quiz_architecture":
             bot.send_message(call.message.chat.id, "Вы работаете по специальности? ", reply_markup=inline_keyboard_quiz_callback())
         elif call.data == "quiz_builder":
@@ -871,11 +869,9 @@ if __name__ == "__main__":
         elif call.data == "info_material_support":
             bot.send_message(call.message.chat.id, "Видов материальной поддержки много, вся информация по ссылке: http://xn--80auhr.xn--p1ai/about/material-support/")
         elif call.data == "info_privileges":
-            bot.send_message(call.message.chat.id, "Хз, не нашел")
+            bot.send_message(call.message.chat.id, "Различные льготы разным группам поступающих отличаются от года к году. Список на новый 2023-ий учебный год будет предоставлен в первых числах июля")
         elif call.data == "info_tests":
-            bot.answer_callback_query(call.id, "Есть, в форме письменного экзамена по рисунку.")
-        elif call.data == "info_tests_callback":
-            bot.send_message(call.message.chat.id, "Свяжемся с вами в течении часа! Напишите пожалуйста в 2 следующих разных сообщения своё ФИО и телефон")
+            bot.answer_callback_query(call.id, "Есть.")
         elif call.data == "kampus_architecture":
             bot.send_message(call.message.chat.id, "Выберите группу", reply_markup=inline_keyboard_kampus_architecture_group())
         elif call.data == "kampus_architecture_group_11_k":
@@ -954,8 +950,10 @@ if __name__ == "__main__":
             bot.send_message(call.message.chat.id, "Расписание по ссылке: https://xn--80auhr.xn--p1ai/schedule/otdelenie-ekonomiki-i-informatsionnykh-tekhnologiy/23/")
         elif call.data == "zhkh_33_rasp":
             bot.send_message(call.message.chat.id, "Расписание по ссылке: https://xn--80auhr.xn--p1ai/schedule/otdelenie-ekonomiki-i-informatsionnykh-tekhnologiy/33/")
-        elif call.data == "kampus_otdelka":
-            bot.send_message(call.message.chat.id, "Выберите группу", reply_markup=inline_keyboard_kampus_otdelka_group())
+        elif call.data == "kampus_otdelka" or call.data == "kampus_stolyar":
+            bot.send_message(call.message.chat.id, "Выберите группу", reply_markup=inline_keyboard_kampus_otdelka_group_temp())
+        elif call.data == "kampus_otdelka_group_11_k_temp" or call.data == "kampus_otdelka_group_12_temp":
+            bot.send_message(call.message.chat.id, "Будет добавлено позже")
         elif call.data == "kampus_otdelka_group_10":
             bot.send_message(call.message.chat.id, "Что Вас интересует?", reply_markup=inline_keyboard_kampus_otdleka_10())
         elif call.data == "kampus_otdelka_group_11_k":
@@ -1162,8 +1160,8 @@ if __name__ == "__main__":
             bot.send_message(call.message.chat.id, "Расписание по ссылке: https://xn--80auhr.xn--p1ai/life/groups/39/") 
         elif call.data == "domyprav_ymkd_4_rasp":
             bot.send_message(call.message.chat.id, "Расписание по ссылке: https://xn--80auhr.xn--p1ai/life/groups/umkd-2-kurs/") 
-        elif call.data == "kampus_stolyar":
-            bot.send_message(call.message.chat.id, "На сайте написанны все группы, как к ""Мастер отделочных строительных и декоративных работ"", я не буду их опять все переписывать, мне одного раза хватило")
+ ###       elif call.data == "kampus_stolyar":
+ ###           bot.send_message(call.message.chat.id, "На сайте написанны все группы, как к ""Мастер отделочных строительных и декоративных работ""")
         elif call.data == "kampus_derevo":
             bot.send_message(call.message.chat.id, "Выберите группу", reply_markup=inline_keyboard_kampus_derevo_group())
         elif call.data == "kampus_derevo_group_18":
@@ -1256,7 +1254,7 @@ if __name__ == "__main__":
                 phone = int(message.text)
                 telephone_int = 0
                 if oformlenie_int == 1:
-                    bot.send_message(message.chat.id, "Здесь будут шаблоны документов")
+                    bot.send_message(message.chat.id, "Договор, Согласие на обработку данных", entities=[MessageEntity("text_link", 0, 7, url="https://disk.yandex.ru/i/B3-r2c1YQt0fUA"), MessageEntity("text_link", 8, 29, url="https://disk.yandex.ru/i/sDq9YY6sqtIkMw")], disable_web_page_preview = True)
                     oformlenie_int = 0
                 elif tests_int == 1:
                     bot.send_message(message.chat.id, "Напишите время, удобное для связи")
