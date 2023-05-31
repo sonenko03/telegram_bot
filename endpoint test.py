@@ -49,7 +49,7 @@ if __name__ == "__main__":
 
         app = Flask(__name__)
 
-        @app.route('/message', methods=['POST'])
+        @app.route('/SendMessage', methods=['POST'])
         def message():
             json_data = request.get_json()
             send_message(json_data)
@@ -62,7 +62,7 @@ if __name__ == "__main__":
                 cursor.execute("""SELECT id FROM destination""")
                 all_user_ids = cursor.fetchall()
                 for id in all_user_ids[0]:
-                        selecting_messages_by_id = """SELECT date, text from private_message where destination_id = %s and date - timestamp %s > interval '0 day 1 second'"""
+                        selecting_messages_by_id = """SELECT destination_id, text from private_message where destination_id = %s and date - timestamp %s > interval '0 day 1 second'"""
                         id = int(id)
                         function_tuple = (id, last_check_date)
                         cursor.execute(selecting_messages_by_id, function_tuple)
