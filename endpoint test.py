@@ -15,48 +15,45 @@ if __name__ == "__main__":
 
         bot = telebot.TeleBot(API_TOKEN)
 
-        def send_message(json_data):            
+        app = Flask(__name__)
+
+        def send_message(json_data):
+                user_not_found_list = list()            
                 sending_ids = json_data["uids"]
                 message = json_data["message"]
                 if type(sending_ids) != type(str(" ")):
                         for id in sending_ids:
                                 cheking_user_chat_by_id = """SELECT chat_id from private_message where destination_id = %s"""
                                 id = int(id)
-                                try:
-                                        cursor.execute(cheking_user_chat_by_id, [id])
-                                        chat_id = cursor.fetchall()
-                                        if len(chat_id) == 0:
-                                                pass
-                                        else:
-                                                bot.send_message(chat_id=chat_id[0], text=message)
-                                except None:
-                                        pass
+                                cursor.execute(cheking_user_chat_by_id, [id])
+                                chat_id = cursor.fetchall()
+                                if len(chat_id) == 0:
+                                        user_not_found_list.append(id)
+                                else:
+                                        bot.send_message(chat_id=chat_id[0][0], text=message)
+
                 else:
                         cheking_user_chat_by_id = """SELECT chat_id from private_message where destination_id = %s"""
                         sending_ids = int(sending_ids)
-                        try:
-                                cursor.execute(cheking_user_chat_by_id, [sending_ids])
-                                chat_id = cursor.fetchall()
-                                if len(chat_id) == 0:
-                                        pass
-                                else:
-                                        bot.send_message(chat_id=chat_id[0][0], text=message)
-                        except AttributeError:
-                                pass
-                cursor.close()
-        
-
-
-        app = Flask(__name__)
+                        cursor.execute(cheking_user_chat_by_id, [sending_ids])
+                        chat_id = cursor.fetchall()
+                        if len(chat_id) == 0:
+                                user_not_found_list.append(id)
+                        else:
+                                bot.send_message(chat_id=chat_id[0][0], text=message)
+                return(user_not_found_list)
 
         @app.route('/SendMessage', methods=['POST'])
         def message():
             json_data = request.get_json()
-            send_message(json_data)
-            return"Succes"
+            check_list = send_message(json_data)
+            if len(check_list) == 0:
+                return"Succes"
+            else:
+                return(check_list)
 
         @app.route('/GetUpdate', methods=['GET'])
-        def request():
+        def get_request():
                 with open("request_time.txt", 'r') as file:
                     last_check_date = str(file.read())
                 cursor.execute("""SELECT id FROM destination""")
