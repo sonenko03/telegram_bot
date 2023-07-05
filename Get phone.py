@@ -10,10 +10,10 @@ def getphone():
                 cursor.execute(cheking_phone, [uids])
                 phone = cursor.fetchall()
                 ret["UID"].append(uids)
-                if phone == "null":
+                if phone[0][0] == None:
                         ret["Phone"].append("Phone not found")
                 elif phone:
-                        ret["Phone"].append(phone)
+                        ret["Phone"].append(phone[0][0])
                 else:
                         ret["Phone"].append("Phone not found")
         else:
@@ -22,10 +22,10 @@ def getphone():
                         cursor.execute(cheking_phone, [uid])
                         phone = cursor.fetchall()
                         ret["UID"].append(uid)
-                        if phone == "null":
+                        if phone[0][0] == None:
                                 ret["Phone"].append("Phone not found")
                         elif phone:
-                                ret["Phone"].append(phone[0])
+                                ret["Phone"].append(phone[0][0])
                         else:
                                 ret["Phone"].append("Phone not found")
         return jsonify(ret)
