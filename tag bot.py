@@ -114,7 +114,6 @@ if __name__ == "__main__":
         select_id = """SELECT id FROM vacancies WHERE employer = %s AND stage != 0"""
         cursor.execute(select_id, [user_id])
         unfinished_ids = cursor.fetchall()
-        print(unfinished_ids)
         if len(unfinished_ids) == 1:
             deleting_id = """DELETE FROM vacancies WHERE id = %s AND employer = %s"""
             cursor.execute(deleting_id, (unfinished_ids[0][0], user_id))
@@ -323,7 +322,6 @@ if __name__ == "__main__":
 
     @bot.message_handler(func=lambda message: True)
     def all_messages(message):
-        print(message.text)
         connection.commit()
         stage = int(getstage(message.from_user.id))
         cursor.execute(f"SELECT to_edit FROM vacancies WHERE employer = {message.from_user.id} AND to_edit != 0")
@@ -337,7 +335,6 @@ if __name__ == "__main__":
             vacancy_stage = get_vacancy_stage((get_vacancy_id(message.from_user.id)), message.from_user.id)
         else: 
             vacancy_stage = 0
-        print(stage, vacancy_stage)
 
         insert_destination = """INSERT INTO employers (id) VALUES (%s) """
         select_destination_id = """SELECT id from employers"""
@@ -363,7 +360,6 @@ if __name__ == "__main__":
                 phone_check = """SELECT id FROM employers WHERE phone = %s"""
                 cursor.execute(phone_check, [our_message])
                 id = cursor.fetchall()
-                print(id)
                 if id:
                     id = id[0][0]
                     if id != message.from_user.id:
